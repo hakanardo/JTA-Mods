@@ -48,6 +48,7 @@ Cam activeCam;
 Vector3 camCoords, camRot;
 bool camLock = true;
 bool camMoving = false;
+float camFov = 50;
 
 //menu parameters
 float mHeight = 9, mTopFlat = 60, mTop = 36, mLeft = 3, mTitle = 5;
@@ -793,12 +794,12 @@ void ScenarioCreator::peds_menu()
 void ScenarioCreator::camera_menu()
 {
 	const float lineWidth = 250.0;
-	const int lineCount = 11;
+	const int lineCount = 12;
 	menuActive = true;
 
 	std::string caption = "CAMERA COORDS";
 
-	char lines[lineCount][50] = { "", "", "", "", "", "", "", "", "", "", "Top Down View" };
+	char lines[lineCount][50] = { "", "", "", "", "", "", "", "", "", "", "Top Down View", "" };
 	DWORD waitTime = 150;
 	while (true)
 	{
@@ -824,6 +825,8 @@ void ScenarioCreator::camera_menu()
 
 		sprintf_s(lines[8], "Teleport 1	~y~[ x=%0.1f y=%0.1f ]", TP1.x, TP1.y);
 		sprintf_s(lines[9], "Teleport 2	~y~[ x=%0.1f y=%0.1f ]", TP2.x, TP2.y);
+
+		sprintf_s(lines[11], "FoV	~y~[ %0.1f ]", camFov);
 
 		do
 		{
@@ -921,6 +924,10 @@ void ScenarioCreator::camera_menu()
 				camCoords.z -= 1;
 				CAM::SET_CAM_COORD(activeCam, camCoords.x, camCoords.y, camCoords.z);
 				break;
+			case 11:
+				camFov -= 5;
+				CAM::SET_CAM_FOV(activeCam, camFov);
+				break;
 			}
 		}
 		else if (bRight)
@@ -938,6 +945,10 @@ void ScenarioCreator::camera_menu()
 			case 3:
 				camCoords.z++;
 				CAM::SET_CAM_COORD(activeCam, camCoords.x, camCoords.y, camCoords.z);
+				break;
+			case 11:
+				camFov+=5;
+				CAM::SET_CAM_FOV(activeCam, camFov);
 				break;
 			}
 

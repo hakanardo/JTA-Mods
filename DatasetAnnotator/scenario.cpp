@@ -19,7 +19,7 @@
 #define DISPLAY_FLAG FALSE
 #define WANDERING_RADIUS 10.0
 #define MAX_PED_TO_CAM_DISTANCE 100.0
-#define DEMO FALSE
+#define DEMO TRUE
 
 static char scenarioTypes[14][40]{
 	"NEAREST",
@@ -186,7 +186,7 @@ DatasetAnnotator::DatasetAnnotator(std::string _output_path, const char* _file_s
 	this->captureFreq = (int)(FPS / TIME_FACTOR);
 	this->SHOW_JOINT_RECT = DISPLAY_FLAG;
 
-	this->fov = 50;
+	this->fov = 120;
 
 	std::vector<const char*> weathers_night = {
 		"CLEAR",
