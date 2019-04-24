@@ -793,12 +793,12 @@ void ScenarioCreator::peds_menu()
 void ScenarioCreator::camera_menu()
 {
 	const float lineWidth = 250.0;
-	const int lineCount = 10;
+	const int lineCount = 11;
 	menuActive = true;
 
 	std::string caption = "CAMERA COORDS";
 
-	char lines[lineCount][50] = { "", "", "", "", "", "", "", "", "", "" };
+	char lines[lineCount][50] = { "", "", "", "", "", "", "", "", "", "", "Top Down View" };
 	DWORD waitTime = 150;
 	while (true)
 	{
@@ -898,6 +898,10 @@ void ScenarioCreator::camera_menu()
 			{
 				TP2 = playerCoords;
 				TP2_rot = CAM::GET_GAMEPLAY_CAM_ROT(2);
+			}
+			else if (activeLineIndexCamera == 10)
+			{
+				CAM::SET_CAM_ROT(activeCam, -90, 0, 0, 1);
 			}
 			waitTime = 150;
 		}
