@@ -307,9 +307,9 @@ void saveFile()
 	f = fopen(fname.c_str(), "w");
 
 	if (camMoving)
-		fprintf_s(f, "%d %f %f %f %d %f %f %f %f %f %f\n", (int)camMoving, A.x, A.y, A.z, stop, B.x, B.y, B.z, C.x, C.y, C.z);
+		fprintf_s(f, "%d %f %f %f %d %f %f %f %f %f %f %f\n", (int)camMoving, A.x, A.y, A.z, stop, B.x, B.y, B.z, C.x, C.y, C.z, camFov);
 	else
-		fprintf_s(f, "%d %f %f %f %d %f %f %f\n", (int)camMoving, camCoords.x, camCoords.y, camCoords.z, stop, camRot.x, camRot.y, camRot.z);
+		fprintf_s(f, "%d %f %f %f %d %f %f %f %f\n", (int)camMoving, camCoords.x, camCoords.y, camCoords.z, stop, camRot.x, camRot.y, camRot.z, camFov);
 
 	fprintf_s(f, "%f %f %f %f %f %f\n", TP1.x, TP1.y, TP1.z, TP1_rot.x, TP1_rot.y, TP1_rot.z);
 	fprintf_s(f, "%f %f %f %f %f %f\n", TP2.x, TP2.y, TP2.z, TP2_rot.x, TP2_rot.y, TP2_rot.z);
@@ -961,7 +961,7 @@ void ScenarioCreator::camera_menu()
 void ScenarioCreator::place_menu()
 {
 	const float lineWidth = 250.0;
-	const int lineCount = 16;
+	const int lineCount = 17;
 	menuActive = true;
 
 	std::string caption = "PLACE";
@@ -972,6 +972,7 @@ void ScenarioCreator::place_menu()
 		float y;
 		float z;
 	} lines[lineCount] = {
+		{ "STORE", 72.9f, -1396.5f, 30.9f },
 		{ "MICHAEL'S HOUSE", -852.4f, 160.0, 65.6f },
 		{ "FRANKLIN'S HOUSE", 7.9f, 548.1f, 175.5f },
 		{ "TREVOR'S TRAILER", 1985.7f, 3812.2f, 32.2f },

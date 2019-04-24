@@ -733,8 +733,8 @@ void DatasetAnnotator::spawnPed(Vector3 pos, int numPed) {
 	for (int i = 0; i<n; i++) {
 		ped_spawned_coord[i] = ENTITY::GET_ENTITY_COORDS(ped_spawned[i], TRUE);
 		//AI::TASK_USE_NEAREST_SCENARIO_TO_COORD(ped_spawned[i], current.x, current.y, current.z, 100.0, 1000 * 60 * 3);
-		//AI::TASK_WANDER_IN_AREA(ped_spawned[i], pos.x, pos.y, pos.z, WANDERING_RADIUS, 0.0, 0.0);
-		AI::TASK_WANDER_STANDARD(ped_spawned[i], 0x471c4000, 0);
+		AI::TASK_WANDER_IN_AREA(ped_spawned[i], pos.x, pos.y, pos.z, WANDERING_RADIUS, 0.0, 0.0);
+		//AI::TASK_WANDER_STANDARD(ped_spawned[i], 0x471c4000, 0);
 
 	}
 	WAIT(10000);
@@ -796,13 +796,15 @@ void DatasetAnnotator::loadScenario(const char* fname)
 	FILE *f = fopen(fname, "r");
 	Vector3 cCoords, cRot;
 	Vector3 vTP1, vTP2, vTP1_rot, vTP2_rot;
-	int stop;
+	int stop, my_fov;
+	float my_fov_float;
 
 	fscanf_s(f, "%d ", &moving);
 	if (moving == 0) 
-		fscanf_s(f, "%f %f %f %d %f %f %f\n", &cCoords.x, &cCoords.y, &cCoords.z, &stop, &cRot.x, &cRot.y, &cRot.z);
+		fscanf_s(f, "%f %f %f %d %f %f %f %f\n", &cCoords.x, &cCoords.y, &cCoords.z, &stop, &cRot.x, &cRot.y, &cRot.z, &my_fov_float);
 	else 
-		fscanf_s(f, "%f %f %f %d %f %f %f %f %f %f\n", &A.x, &A.y, &A.z, &stop, &B.x, &B.y, &B.z, &C.x, &C.y, &C.z);
+		fscanf_s(f, "%f %f %f %d %f %f %f %f %f %f %f\n", &A.x, &A.y, &A.z, &stop, &B.x, &B.y, &B.z, &C.x, &C.y, &C.z, &my_fov_float);
+	my_fov = (int)my_fov_float;
 
 	fscanf_s(f, "%f %f %f %f %f %f\n", &vTP1.x, &vTP1.y, &vTP1.z, &vTP1_rot.x, &vTP1_rot.y, &vTP1_rot.z);
 	fscanf_s(f, "%f %f %f %f %f %f\n", &vTP2.x, &vTP2.y, &vTP2.z, &vTP2_rot.x, &vTP2_rot.y, &vTP2_rot.z);
@@ -864,9 +866,9 @@ void DatasetAnnotator::loadScenario(const char* fname)
 	fclose(f);
 
 	if (moving == 0)
-		DatasetAnnotator::setCameraFixed(cCoords, cRot, 0, fov);
+		DatasetAnnotator::setCameraFixed(cCoords, cRot, 0, my_fov);
 	else
-		DatasetAnnotator::setCameraMoving(A, B, C, fov);
+		DatasetAnnotator::setCameraMoving(A, B, C, my_fov);
 }
 
 void DatasetAnnotator::spawn_peds_flow(Vector3 pos, Vector3 goFrom, Vector3 goTo, int npeds, int ngroup, int currentBehaviour, 
